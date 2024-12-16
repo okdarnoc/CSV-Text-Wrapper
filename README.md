@@ -1,130 +1,136 @@
 # CSV Text Formatter
 
-A Python utility for processing CSV files by reformatting text in specified columns to meet width constraints. This tool is particularly useful when preparing data for fixed-width displays, reports, or other formatting-sensitive applications.
+A robust Python utility for reformatting text in CSV columns to meet specific width constraints. Perfect for preparing data for fixed-width displays, reports, or any situation requiring controlled text formatting.
 
 ## Features
 
-- Format text in CSV columns to meet specific width constraints
-- Intelligent text splitting at comma positions
+- Format CSV columns to precise width specifications
+- Smart text splitting at comma positions
 - Configurable font size support
-- Preservation of data integrity and structure
-- UTF-8 encoding support
-- Clean line breaks without trailing spaces
+- Robust error handling for file and data issues
+- UTF-8 encoding support with fallback options
+- Type hints for better code maintainability
 
-## Installation
+## Quick Start
 
-1. Clone this repository:
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/csv-text-formatter.git
 cd csv-text-formatter
-```
 
-2. No additional dependencies required - uses Python standard library only.
-
-## Usage
-
-### Command Line Interface
-
-Run the script and follow the interactive prompts:
-
-```bash
+# Run the formatter
 python csv_formatter.py
 ```
 
-You will be asked to provide:
-- Input CSV file path
-- Output CSV file path
-- Column index to process (0-based)
-- Width limit in centimeters
-- Font size in points
+## Usage
+
+### Command Line
+
+Run the script and follow the prompts:
+
+```bash
+$ python csv_formatter.py
+Enter the path to the input CSV file: input.csv
+Enter the path to the output CSV file: output.csv
+Enter the index (starting from 0) of the column to be processed: 2
+Enter the width limit in cm: 10
+Enter the font size: 12
+```
 
 ### As a Module
 
 ```python
 from csv_formatter import process_csv
 
-# Process a CSV file
+# Basic usage
 process_csv(
     input_path='input.csv',
     output_path='output.csv',
-    column_index=2,  # Process the third column (0-based index)
-    limit_cm=10.0,   # 10 cm width limit
-    font_size=12.0   # 12pt font size
+    column_index=2,
+    limit_cm=10.0,
+    font_size=12.0
 )
+
+# Advanced usage with error handling
+try:
+    process_csv('input.csv', 'output.csv', 2, 10.0, 12.0)
+except FileNotFoundError:
+    print("Input file not found")
+except IndexError:
+    print("Invalid column index")
+except ValueError:
+    print("Invalid width or font size")
 ```
 
-## How It Works
-
-1. **Character Width Calculation**: 
-   - Estimates character width based on font size
-   - Uses a base calculation of 0.21cm for 12pt font
-   - Scales linearly with font size changes
-
-2. **Text Splitting**:
-   - Splits text only at comma positions
-   - Ensures no line exceeds specified width
-   - Maintains semantic grouping of text
-
-3. **CSV Processing**:
-   - Reads input CSV file
-   - Applies formatting to specified column
-   - Preserves all other data and structure
-   - Writes to new CSV file
-
-## Example
+## Input/Output Example
 
 Input CSV:
 ```csv
-ID,Name,Description
-1,Product A,"Long description, with multiple, comma-separated, parts that need to be formatted"
+ID,Product,Description
+1,Laptop,"High-performance laptop, with 16GB RAM, 512GB SSD, dedicated graphics"
 ```
 
-Output CSV (with 10cm width limit):
+Output CSV (10cm width limit):
 ```csv
-ID,Name,Description
-1,Product A,"Long description
-with multiple, comma-separated
-parts that need to be formatted"
+ID,Product,Description
+1,Laptop,"High-performance laptop
+with 16GB RAM
+512GB SSD
+dedicated graphics"
 ```
 
-## Limitations
+## Error Handling
 
-- Character width calculation is a simplified approximation
-- Only splits at comma positions
-- Assumes monospace font characteristics
-- May not account for all Unicode character widths
-- No support for rich text formatting
+The script handles common errors:
+- Missing input files
+- Invalid column indices
+- Malformed CSV data
+- Invalid width/font parameters
+- Encoding issues (with fallback)
+
+## Technical Details
+
+### Character Width Calculation
+
+The formatter uses a simplified model for character width:
+- Base width: 0.21cm at 12pt font
+- Linear scaling with font size
+- Assumes monospace-like characteristics
+
+### Text Splitting Strategy
+
+- Splits only at comma positions to maintain data integrity
+- Ensures no line exceeds specified width
+- Preserves original commas except at line breaks
+- Removes extra spaces after splits
+
+## Requirements
+
+- Python 3.6+
+- No external dependencies
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Authors
-
-- Your Name
-- Contributors
-
-## Acknowledgments
-
-- Thanks to anyone whose code was used
-- Inspiration
-- etc
-
-## Version History
-
-- 1.0.0
-    - Initial Release
-    - Basic CSV processing functionality
-    - Command line interface
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Future Improvements
 
-- Add support for different fonts
-- Implement more accurate character width calculations
-- Add support for different text splitting strategies
-- Include rich text formatting options
-- Add batch processing capabilities
+- [ ] Add support for custom delimiter characters
+- [ ] Implement more sophisticated character width calculations
+- [ ] Add support for different text splitting strategies
+- [ ] Include configuration file support
+- [ ] Add command line arguments parser
+- [ ] Create automated tests
+
+## Acknowledgments
+
+- Inspired by the need for precise text formatting in data processing
+- Thanks to all contributors and users for their feedback and suggestions
